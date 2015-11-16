@@ -1,4 +1,6 @@
-from os import environ, remove
+from os import environ
+from shutil import rmtree
+
 from subprocess import Popen, PIPE
 from flask import Flask, Response, request
 
@@ -12,24 +14,33 @@ def run():
     with open('/rest-javac/Main.java', 'w+') as main:
         main.write(request.get_data())
 
-    stdout, stderr = Popen(
+    compile_stdout, compile_stderr = Popen(
         ['javac', '/rest-javac/Main.java'],
         stdout=PIPE,
         stderr=PIPE,
     ).communicate()
 
-    stdout, stderr = Popen(
+    run_stdout, run_stderr = Popen(
         ['java', 'Main'],
         cwd='/rest-javac/',
         stdout=PIPE,
         stderr=PIPE,
     ).communicate()
 
-    remove('/rest-javac/Main.java')
-    remove('/rest-javac/Main.class')
+    rmtree('/rest-javac/Main.java', ignore_errors=True)
+    rmtree('/rest-javac/Main.class', ignore_errors=True)
+
+    if run_stdout:
+        response_body = run_stdout
+    else:
+        response_body = '\n'.join([
+            compile_stdout,
+            compile_stderr,
+            run_stderr,
+        ])
 
     return Response(
-        u'{}{}'.format(stdout),
+        response_body,
         mimetype='text/plain',
     )
 
@@ -44,8 +55,8 @@ def catch_all(path):
         mimetype='text/plain',
     )
 
-
-app.run(
-    host=environ['HOST'],
-    port=int(environ['PORT']),
-)
+if __name__ == '__main__':
+    app.run(
+        host=environ['HOST'],
+        port=int(environ['PORT']),
+    )

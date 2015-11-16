@@ -11,4 +11,7 @@ RUN apt-get install -y python-pip
 ADD requirements.txt /code/
 RUN pip install -r requirements.txt
 
-ADD app.py /code/
+RUN mkdir /rest-javac/
+
+ADD app_tests.py app.py /code/
+ADD fixtures /code/fixtures

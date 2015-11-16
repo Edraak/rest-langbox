@@ -5,5 +5,9 @@ language: python
 services:
   - docker
 
+before_install:
+  - pip install docker-compose
+
 script:
   - docker-compose build
+  - dcm run web python app_tests.py
