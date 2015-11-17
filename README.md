@@ -1,4 +1,8 @@
 #Edraak's Java Compiler REST API
+
+ [![Build Status](https://travis-ci.org/Edraak/rest-javac.svg?branch=master)](https://travis-ci.org/Edraak/rest-javac)
+ 
+
 This is a simple Docker container to compile and execute a Java file
 and returns the output as a response body.
 
