@@ -11,7 +11,7 @@ class AppTestCase(unittest.TestCase):
         self.app = app.test_client()
 
     def _run_file(self, name):
-        full_path = 'fixtures/{}.java'.format(name)
+        full_path = 'fixtures/{}'.format(name)
 
         with open(full_path) as code_file:
             code = '\n'.join(code_file.readlines())
@@ -22,7 +22,7 @@ class AppTestCase(unittest.TestCase):
             ).data
 
     def test_hello_world(self):
-        self.assertEqual('Hello, World\n', self._run_file('HelloWorld'))
+        self.assertEqual('Hello, World\n', self._run_file('HelloWorld.java'))
 
 
 if __name__ == '__main__':
