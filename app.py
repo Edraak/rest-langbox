@@ -10,34 +10,20 @@ app = Flask(__name__)
 
 @app.route('/v1/run', methods=['POST'])
 def run():
+    javac = Popen([
+        'docker',
+        'run',
+        '-i', 'lang-box/java',
+    ], stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
-    with open('/rest-javac/Main.java', 'w+') as main:
-        main.write(request.get_data())
+    stdout, stderr = javac.communicate(
+        input=request.get_data()
+    )
 
-    compile_stdout, compile_stderr = Popen(
-        ['javac', '/rest-javac/Main.java'],
-        stdout=PIPE,
-        stderr=PIPE,
-    ).communicate()
-
-    run_stdout, run_stderr = Popen(
-        ['java', 'Main'],
-        cwd='/rest-javac/',
-        stdout=PIPE,
-        stderr=PIPE,
-    ).communicate()
-
-    rmtree('/rest-javac/Main.java', ignore_errors=True)
-    rmtree('/rest-javac/Main.class', ignore_errors=True)
-
-    if run_stdout:
-        response_body = run_stdout
+    if stdout:
+        response_body = stdout
     else:
-        response_body = '\n'.join([
-            compile_stdout,
-            compile_stderr,
-            run_stderr,
-        ])
+        response_body = stderr
 
     return Response(
         response_body,
