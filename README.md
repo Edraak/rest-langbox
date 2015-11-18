@@ -1,21 +1,20 @@
-#Edraak's Java Compiler REST API
+#Edraak's Programming Language Compiler REST API
 
-[![Build Status](https://travis-ci.org/Edraak/rest-javac.svg?branch=master)](https://travis-ci.org/Edraak/rest-javac)
+[![Build Status](https://travis-ci.org/Edraak/rest-langbox.svg?branch=master)](https://travis-ci.org/Edraak/rest-langbox)
 
 
-This is a simple Docker container to compile and execute a Java file
+This is a simple Docker container to compile and execute a code files
 and returns the output as a response body.
 
 #Installation
 To install this service run the following command:
 
-    $ docker-compose up
-
-
-If you'd like to change something in the code, re-build the container:
-
-    $ docker-compose build
-    $ docker-compose up
+    $ cd docker 
+    $ docker build --tag=lang-box/java .
+    $ cd ..
+    $ # Optionally make a virtual env
+    $ pip install -r requirements.txt
+    $ python app.py
 
 
 #API Usage
