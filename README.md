@@ -18,7 +18,7 @@ To install this service run the following command:
 
 
 #API Usage
-Assuming that you have a file called `main.java` with the following content:
+Assuming that you have a file called `Main.java` with the following content:
 
     public class Main {
         public static void main(String[] args) {
