@@ -9,7 +9,7 @@ and returns the output as a response body.
 #Installation
 To install this service run the following command:
 
-    $ cd docker 
+    $ cd docker
     $ docker build --tag=lang-box/java .
     $ cd ..
     $ # Optionally make a virtual env
@@ -32,3 +32,18 @@ Use `curl` to compile and run this file:
     $ curl -X POST -d @Main.java http://localhost:8000/v1/run
 
 Then the API should returns `Hello, World`.
+
+
+#TODO
+Address the following security issues:
+
+ - [ ] Fork bomb
+ - [ ] Memory over consumption
+ - [ ] CPU core and time over consumption
+ - [ ] Data abuse e.g. uploading very large input or very large output
+ - [ ] Escape out of docker attack (is that possible)
+ - [ ] DDoS attacks against others using the Docker resources
+ - [ ] Prevent disk space over-consumption
+ - [ ] Create a Python docker instance using the same rest API
+ - [ ] Have someone to attack the system
+ - [ ] Other issues?
